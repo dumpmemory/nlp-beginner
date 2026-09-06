@@ -1,26 +1,42 @@
-# LLM-Beginner：大模型与智能体入门练习
+# 大模型与智能体 · LLM-Beginner
 
-本系列是 [NLP-Beginner](legacy/README.md) 在大模型时代的重构版本，是一份**独立的入门教程**，面向有 Python 与深度学习基础的学习者。沿用原系列「任务渐进 × 每个 2-4 周」的节奏，按"熟悉 Transformer → 从零实现 mini-GPT → 指令微调与对齐 → RAG → 工具调用 Agent → Mini Coding Agent"六个任务展开。
+**《大模型与智能体》电子书与 6 个循序渐进的编程任务**
 
-llm-beginner 可独立完成，无任何前置依赖。如果同时在读《神经网络与深度学习（第二版）》（下文简称 **NNDL2**）与配套的《神经网络与深度学习案例与实践（第二版）》（下文简称 **实践书 v2**），每个任务的"延伸阅读"会指向对应章节，配合读会更顺畅。
+[本书介绍](https://nndl.ai/llm-agent/) · [下载 PDF](https://github.com/nndl/llm-beginner/releases/download/book-pdf/llm-agent.pdf) · [六个任务](#六个编程任务) · [环境与自检](#环境与自检) · [问题反馈](https://github.com/nndl/llm-beginner/issues)
 
-## 相关教材
+<table>
+  <tr>
+    <td width="30%" align="center" valign="top"><a href="https://nndl.ai/llm-agent/"><img src="assets/covers/lma-cover-small.webp" width="160" alt="《大模型与智能体》封面"></a></td>
+    <td width="70%" valign="top">
+      <h3>大模型与智能体</h3>
+      <p>邱锡鹏著。从神经网络与 Transformer 出发，讲解大模型如何训练、如何与人对齐，以及如何借助工具、记忆与规划构建智能体。</p>
+      <p>全书 17 章，分为共用基础、大模型、智能体、边界与未来四个部分，涵盖原理、系统构建、应用与治理。</p>
+      <p><strong>阅读入口：</strong><a href="https://github.com/nndl/llm-beginner/releases/download/book-pdf/llm-agent.pdf">出版前电子稿</a> · <a href="https://nndl.ai/llm-agent/">完整章节目录</a></p>
+    </td>
+  </tr>
+</table>
 
-作为本教程的学习材料，同步撰写了**《大模型与智能体》**，围绕共用基础、大模型、智能体、边界与未来四条主线展开，共 17 章。 [完整章节列表](https://nndl.ai/llm-agent/)。
+读书可以先从上方 PDF 开始；想动手实践，可从下方任务一开始。**书与练习可独立学习，练习需要 Python 与深度学习基础**，无需先完成系列其他教材。书稿处于出版筹备阶段，内容随修订更新。
 
-这本教材可以作为 llm-beginner 的**前置知识**配合阅读：教材讲清原理，本仓库的 6 个任务负责把原理动手跑通。两者都可独立完成，不强相关。
+## 六个编程任务
 
-参考：
+LLM-Beginner 由 [NLP-Beginner](legacy/README.md)重构而来，沿着 Transformer → mini-GPT → 微调与对齐 → RAG → 工具调用 → 编程智能体逐步推进。每项任务先实现关键组件，再对照框架，并用自检脚本检查结果。
 
-1. 《[神经网络与深度学习](https://nndl.ai/)》
-2. 《[大模型与智能体](https://nndl.ai/llm-agent/)》（2026 出版）
-3. 原始版本：[NLP-Beginner](legacy/README.md)（2019 年发布，已归档供对比阅读）
-4. 不懂问搜索引擎与大模型
+| 任务与入口 | 你将完成什么 | 建议用时 |
+|---|---|---|
+| 1 · [熟悉 Transformer](task-1-transformer/) | 手写注意力与 Transformer，用中文分类任务观察注意力权重 | 2 周 |
+| 2 · [从零实现 mini-GPT](task-2-mini-gpt/) | 训练小型语言模型，实现分词、RoPE、KV Cache 与采样 | 3 周 |
+| 3 · [指令微调与偏好对齐](task-3-sft-dpo/) | 手写 LoRA，完成 SFT 与 DPO，对比微调效果 | 2—3 周 |
+| 4 · [RAG 文档问答](task-4-rag/) | 构建检索、重排与生成流程，并评测问答质量 | 2 周 |
+| 5 · [工具调用 Agent](task-5-tool-agent/) | 实现 ReAct 循环、工具调用与错误恢复 | 2 周 |
+| 6 · [Mini Coding Agent](task-6-coding-agent/) | 构建能修改代码、运行测试并迭代的编程智能体 | 5—6 周 |
+
+用时是学习节奏建议，可按基础与实验规模调整。各目录提供实现要求、数据脚本、接口约定与自检，**实现代码由学习者在 `src/` 中完成**。已有基础时可以选做，所需前置能力见各任务说明。
 
 ## 通用说明
 
-- **设备基准**：8GB 消费级 GPU（如 RTX 3060/4060）可完成任务一至四；任务五、六推荐 16GB+ 显存，或使用 Q4_K_M 量化在 8GB 上跑。Mac M 系列通过 MPS / llama.cpp 兜底。
-- **模型生态**：通义千问 Qwen 系列贯穿全程，国内可直接从 Hugging Face / ModelScope 下载。
+- **设备**：各任务的资源需求见对应 README。显存占用随模型、精度、序列长度与批量大小变化，可先用小规模配置跑通流程。
+- **模型生态**：通义千问 Qwen 系列贯穿全程，下载入口与可选来源见各任务的数据脚本。
 - **语言**：以中文为主，仅在英文数据显著更好时使用英文（如部分小模型预训练语料）。
 - **教学路线**：每项任务先手写、再对照框架——先吃透原理，再看工程上怎么封装。
 
@@ -57,6 +73,9 @@ python eval/run.py             # 3. 跑自检，结果写入 eval/result.json
 
 > ⚠️ 请在仓库内运行 `eval/run.py`：它依赖仓库根目录的 `_eval_harness.py`（六个任务共用的运行壳）。把单个任务目录拷到仓库外会导致自检无法 import。
 
+<details>
+<summary>各任务的下载命令与数据说明</summary>
+
 ### 各任务的下载命令
 
 | 任务 | 下载命令（在任务目录下执行） | 说明 |
@@ -67,6 +86,8 @@ python eval/run.py             # 3. 跑自检，结果写入 eval/result.json
 | 四 RAG | `python data/download.py [--skip-models]` | BGE 模型 + NNDL PDF + 校验 gold_qa；`--skip-models` 只下 PDF 并校验 |
 | 五 工具 Agent | `python data/download.py` | 生成 10 题任务集与检索夹具，并打印模型部署提示 |
 | 六 Coding Agent | `python data/download.py [--with-swebench]` | 生成本地 toy-repo；`--with-swebench` 额外下载 SWE-bench Lite 抽样元数据 |
+
+</details>
 
 ### 看懂自检结果
 
@@ -82,7 +103,14 @@ python eval/run.py             # 3. 跑自检，结果写入 eval/result.json
 
 每个任务的 `eval/tutor_prompt.md` 是一段可直接复制的提示词：连同 `src/` 下的代码一起贴给 Claude / Qwen / DeepSeek 等，就能拿到一份按该任务检查项组织的代码审查。
 
----
+## 任务详解
+
+展开查看参考材料、实现要求与实验建议；具体接口和自检标准以各任务目录为准。
+
+文中的 **NNDL2** 指《神经网络与深度学习》第二版，**实践书 v2** 指《案例与实践》第二版。
+
+<details>
+<summary>任务一：熟悉 Transformer</summary>
 
 ### 任务一：熟悉 Transformer
 
@@ -119,7 +147,10 @@ python eval/run.py             # 3. 跑自检，结果写入 eval/result.json
    3. 注意力热图：观察模型是否"看对了关键词"
 6. 时间：2 周
 
----
+</details>
+
+<details>
+<summary>任务二：从零实现 mini-GPT</summary>
 
 ### 任务二：从零实现 mini-GPT
 
@@ -156,7 +187,10 @@ python eval/run.py             # 3. 跑自检，结果写入 eval/result.json
    4. TinyStories 上是否能复现 10M 参数模型涌现叙事能力
 6. 时间：3 周
 
----
+</details>
+
+<details>
+<summary>任务三：指令微调与偏好对齐</summary>
 
 ### 任务三：指令微调与偏好对齐
 
@@ -191,7 +225,10 @@ python eval/run.py             # 3. 跑自检，结果写入 eval/result.json
    4. SFT-only vs SFT+DPO 在偏好上的差异
 7. 时间：2-3 周
 
----
+</details>
+
+<details>
+<summary>任务四：RAG 文档问答</summary>
 
 ### 任务四：RAG 文档问答
 
@@ -226,7 +263,10 @@ python eval/run.py             # 3. 跑自检，结果写入 eval/result.json
    4. 用 RAGAS 打端到端分数
 7. 时间：2 周
 
----
+</details>
+
+<details>
+<summary>任务五：工具调用 Agent</summary>
 
 ### 任务五：工具调用 Agent
 
@@ -262,7 +302,10 @@ python eval/run.py             # 3. 跑自检，结果写入 eval/result.json
    3. 错误注入下的恢复能力
 8. 时间：2 周
 
----
+</details>
+
+<details>
+<summary>任务六：Mini Coding Agent</summary>
 
 ### 任务六：Mini Coding Agent
 
@@ -311,7 +354,10 @@ python eval/run.py             # 3. 跑自检，结果写入 eval/result.json
    3. 纯 prompt vs 加 Skill 的成功率提升
 8. 时间：5-6 周（全系列最大跳变：子系统最多、且完全超出教材覆盖）
 
----
+</details>
+
+<details>
+<summary>整体设计原则</summary>
 
 ## 整体设计原则
 
@@ -323,3 +369,14 @@ python eval/run.py             # 3. 跑自检，结果写入 eval/result.json
 | 数据贯通 | MOSS 系列从任务三贯通到任务五（教格式 → 真调用）；唐诗数据从原 nlp-beginner 任务五延续到新任务二 |
 | 模型贯通 | Qwen2.5 体系：0.5B（任务 3）→ 7B-Instruct（任务 4-5）→ Coder-7B（任务 6）；任务二从零训练、不属此体系 |
 | 技术覆盖 | RoPE、LoRA、DPO、RAG、ReAct、MCP、Skill、Subagent、CodeAct |
+
+</details>
+
+## 提问与反馈
+
+- [书稿勘误与练习问题](https://github.com/nndl/llm-beginner/issues)：注明章节或任务、书稿下载日期、运行环境、复现步骤与自检结果。
+- [学习讨论与实践交流](https://github.com/nndl/nndl-discussion/discussions)：交流概念理解、实验观察与学习经验。
+
+## 系列资源与旧版
+
+[系列主站](https://nndl.ai/) · [理论书与通识版](https://github.com/nndl/nndl) · [PyTorch 案例与实践](https://github.com/nndl/nndl-practice) · [NLP-Beginner 历史教程](legacy/README.md)
